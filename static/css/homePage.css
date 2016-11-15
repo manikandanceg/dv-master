@@ -1,0 +1,42 @@
+body{
+	
+	width : 99%;
+	margin: 2px;
+	background-color: rgb(178, 217, 230);
+}
+
+label{
+
+	min-width: 80px;
+}
+
+.title{
+
+	width: 100%;
+	height: 5%;
+	text-align: center;
+	font-weight: bold;
+}
+
+#leftPane{
+
+	border-right: 1px solid black;
+	height: 90%;
+	width: 20%;
+	float: left;
+	position: relative;
+}
+
+#middlePane{
+
+	border-right: 1px solid black;
+	height: 90%;
+	width: 50%;
+	float: left;
+	position: relative;
+}
+
+#rightPane{
+	border-right: 0px !important;
+	height: 90%;
+}
