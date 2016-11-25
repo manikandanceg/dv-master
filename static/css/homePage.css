@@ -2,7 +2,6 @@ body{
 	
 	width : 99%;
 	margin: 2px;
-	background-color: rgb(178, 217, 230);
 }
 
 label{
@@ -39,4 +38,24 @@ label{
 #rightPane{
 	border-right: 0px !important;
 	height: 90%;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
 }

@@ -1,5 +1,6 @@
 from flask import Flask, json
 import middleWare
+from collections import Counter
 
 app = Flask(__name__, static_url_path='')
 from pymongo import MongoClient
@@ -17,25 +18,33 @@ def find_question(user_id):
     print "names are", names
     answer = db.posts.find({"@OwnerUserId": str(user_id)})
     print answer
-    topics = ""
+
+    topics = []
     for a in answer:
         if '@Tags' in a:
-            topics += a['@Tags']
-    topics = topics.encode('ascii', 'ignore')
-    print "topic is ",topics
-    print type(topics)
-    topics = topics.replace('<','')
-    topics = topics.replace('>', ' ')
+            localTopics = a['@Tags']
+            localTopics = localTopics.replace('<', '')
+            localTopics = localTopics.replace('>', ' ')
+            topics = topics + localTopics.split(" ")
+
+    counts = Counter(topics).most_common(5)
+    topicString = ""
+    for val1, val2 in counts:
+        topicString += val1 + ","
+
+        topicString = topicString.encode('ascii', 'ignore')
+    print "topic is ",topicString
+    print type(topicString)
     json_return = {}
     json_return["userId"] = str(user_id)
 
-    json_return ["topics"] = topics
-    
+    json_return ["topics"] = topicString
+    connection.close()
     return json.dumps(json_return)
 
     # return names
 
 if __name__ == "__main__":
     app.wsgi_app = middleWare.LoggingMiddleware(app.wsgi_app)
-    app.run(host='0.0.0.0')
+    app.run()
 
