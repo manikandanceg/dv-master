@@ -9,6 +9,33 @@ from pymongo import MongoClient
 def hello():
     return app.send_static_file('index.html')
 
+
+
+@app.route('/users/rTopics/<int:user_id>')    #int has been used as a filter that only integer will be passed in the url otherwise it will give a 404 error
+def find_recommendations(user_id):
+    connection = MongoClient('localhost', 27017)
+    print "connection is "
+    db = connection['test_project']
+
+    recos = db.topic_recommendations.find({"userId": str(user_id)}).next()['recommendations']
+
+    sortedOutput = sorted(recos.items(), key=lambda value: value[1])
+
+    sortedTopics = {}
+
+    c = 0
+    for i in reversed(sortedOutput):
+        c = c + 1
+        sortedTopics[i[0]] = i[1]
+        if c == 10:
+            break
+
+    dict = {}
+    dict['topics'] = sortedTopics
+    connection.close()
+    return json.dumps(dict)
+
+
 @app.route('/users/<int:user_id>')    #int has been used as a filter that only integer will be passed in the url otherwise it will give a 404 error
 def find_question(user_id):
     connection = MongoClient('localhost', 27017)
