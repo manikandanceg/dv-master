@@ -26,6 +26,19 @@ label{
 	position: relative;
 }
 
+.marginLeft30{
+    margin-left : 30px;
+}
+
+
+#topicSelector {
+    padding-top: 10px;
+}
+
+#submitButtonContainer{
+    padding-top: 10px;
+}
+
 #middlePane{
 
 	border-right: 1px solid black;
@@ -38,24 +51,89 @@ label{
 #rightPane{
 	border-right: 0px !important;
 	height: 90%;
+	overflow-y : auto;
 }
 
-.node {
-  cursor: pointer;
+.color1{
+    fill: #267326;
+}
+.color2{
+    fill: #2d862d;
+}
+.color3{
+    fill: #339933;
+}
+.color4{
+    fill: #39ac39;
+}
+.color5{
+    fill: #40bf40;
+}
+.color6{
+    fill: #53c653;
+}
+.color7{
+    fill: #66cc66;
+}
+.color8{
+    fill: #79d279;
+}
+.color9{
+    fill: #8cd98c;
+}
+.color10{
+    fill: #9fdf9f;
 }
 
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+.question{
+    color : #242729;
 }
 
-.node text {
-  font: 10px sans-serif;
+.secondLine{
+	margin-bottom:10px;
+	margin-left:30px;
 }
 
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
+.secondLabel{
+	font-size: 10px;
+	font-weight: bold;
+	color:#39739d;
+
 }
+
+#userId{
+	margin-left: 11px;
+}
+
+#difficulty{
+	position: relative;
+    top: 6px;
+}
+
+#topicList{
+	margin-left: 30px;
+}
+
+#time{
+	margin-left: 30px;
+	position: relative;
+    top: 6px;
+}
+
+label{
+
+	min-width: 80px;
+}
+
+.paddingBottom{
+	padding-bottom: 5px;
+}
+
+.title{
+
+	width: 100%;
+	height: 5%;
+	text-align: center;
+	font-weight: bold;
+}
+

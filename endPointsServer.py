@@ -14,20 +14,19 @@ def hello():
 @app.route('/users/rTopics/<int:user_id>')    #int has been used as a filter that only integer will be passed in the url otherwise it will give a 404 error
 def find_recommendations(user_id):
     connection = MongoClient('localhost', 27017)
-    print "connection is "
     db = connection['test_project']
 
     recos = db.topic_recommendations.find({"userId": str(user_id)}).next()['recommendations']
 
     sortedOutput = sorted(recos.items(), key=lambda value: value[1])
 
-    sortedTopics = {}
+    sortedTopics = []
 
     c = 0
     for i in reversed(sortedOutput):
         c = c + 1
-        sortedTopics[i[0]] = i[1]
-        if c == 10:
+        sortedTopics.append(str([i[0]]) + ":" + str(i[1]))
+        if c == 7:
             break
 
     dict = {}
