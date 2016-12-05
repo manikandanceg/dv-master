@@ -4,6 +4,47 @@ body{
 	margin: 2px;
 }
 
+    .my-legend{
+          width: 80%;
+          margin-left: 80px;
+    }
+
+  .my-legend .legend-title {
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+    }
+  .my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    }
+  .my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 50px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+    }
+  .my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 15px;
+    width: 50px;
+    }
+  .my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+    }
+  .my-legend a {
+    color: #777;
+    }
+
 label{
 
 	min-width: 80px;
@@ -39,54 +80,67 @@ label{
     padding-top: 10px;
 }
 
+#networkPane{
+
+    height : 75%;
+}
+
+#legendPane{
+    height : 20%;
+}
+
 #middlePane{
 
-	border-right: 1px solid black;
-	height: 90%;
+	height: 100%;
 	width: 50%;
 	float: left;
 	position: relative;
 }
 
 #rightPane{
+    border-left: 1px solid black;
 	border-right: 0px !important;
 	height: 90%;
 	overflow-y : auto;
 }
 
+
+
+
 .color1{
-    fill: #267326;
+    fill: #023484;
 }
 .color2{
-    fill: #2d862d;
+    fill: #033d9b;
 }
 .color3{
-    fill: #339933;
+    fill: #0347b5;
 }
 .color4{
-    fill: #39ac39;
+    fill: #1050b7;
 }
 .color5{
-    fill: #40bf40;
+    fill: #145bce;
 }
 .color6{
-    fill: #53c653;
+    fill: #1e66db;
 }
 .color7{
-    fill: #66cc66;
+    fill: #2d74e5;
 }
 .color8{
-    fill: #79d279;
+    fill: #4079d6;
 }
 .color9{
-    fill: #8cd98c;
+    fill: #528ae5;
 }
 .color10{
-    fill: #9fdf9f;
+    fill: #82adf2;
 }
 
 .question{
     color : #242729;
+    font-weight: bold;
 }
 
 .secondLine{
