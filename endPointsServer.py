@@ -1,6 +1,7 @@
 from flask import Flask, json
 import middleWare
 from collections import Counter
+import random
 
 app = Flask(__name__, static_url_path='')
 from pymongo import MongoClient
@@ -18,14 +19,15 @@ def find_recommendations(user_id):
 
     recos = db.topic_recommendations.find({"userId": str(user_id)}).next()['recommendations']
 
-    sortedOutput = sorted(recos.items(), key=lambda value: value[1])
+    sortedOutput = sorted(recos.items(), key=lambda value: value[1], reverse=True)
 
     sortedTopics = []
-
+    length = len(sortedOutput)
     c = 0
-    for i in reversed(sortedOutput):
+    for i in xrange(len(sortedOutput)):
+        index = random.randrange(0, 220)
         c = c + 1
-        sortedTopics.append(str([i[0]]) + ":" + str(i[1]))
+        sortedTopics.append(str(sortedOutput[index][0]) + ":" + str(sortedOutput[index][1]))
         if c == 7:
             break
 
@@ -73,4 +75,3 @@ def find_question(user_id):
 if __name__ == "__main__":
     app.wsgi_app = middleWare.LoggingMiddleware(app.wsgi_app)
     app.run()
-

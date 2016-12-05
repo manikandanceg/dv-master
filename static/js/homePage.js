@@ -1,7 +1,118 @@
+
+
+function populateTopics(){
+
+    var userId = document.getElementById("userId");
+    if(!userId){
+        userId = "51";
+    } else {
+        userId = userId.value;
+    }
+   var getRUrl = "http://localhost:5000/users/rTopics/";
+   getRUrl = getRUrl + userId;
+
+    $.ajax({
+
+        url: getRUrl,
+        success : function(result){
+
+            var json = {
+            };
+
+            var internalJson= {};
+
+            var obj = JSON.parse(result);
+
+            var topicsArray = obj.topics;
+
+            console.log(topicsArray);
+
+            for (var i = 0; i < topicsArray.length; i++){
+                var item = topicsArray[i];
+                var key = item.split(":")[0];
+                var value = parseFloat(item.split(":")[1]);
+                internalJson[key] = value;
+            }
+
+            json['topics'] = internalJson;
+
+            var diameter = 300;
+            var bleed = 50;
+
+            var svg = d3.select('#chartPane').append('svg')
+                                .attr('width', 250)
+                                .attr('height', 300);
+
+           var bubble = d3.layout.pack()
+                            .size([250, 300])
+                            .value(function(d) {return d.size;})
+                            .padding(3);
+
+            function processData(data) {
+                var obj = data.topics;
+
+                var newDataSet = [];
+
+                for(var prop in obj) {
+                  newDataSet.push({name: prop, className: prop.toLowerCase(), size: obj[prop]});
+                }
+                return {children: newDataSet};
+              }
+
+              // generate data with calculated layout values
+              var nodes = bubble.nodes(processData(json))
+                                    .filter(function(d) { return !d.children; }); // filter out the outer bubble
+
+              var vis = svg.selectAll('g myCircleText')
+                                .data(nodes);
+
+              var counter = 0;
+
+              vis.enter().append('g')
+                        .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
+
+
+                        var circle = vis.append("circle")
+                        .attr('r', function(d) {
+                            return d.r;
+                        })
+                        .attr('class', function(d) {
+                            counter++;
+                            return "color" + counter;
+                        });
+
+               vis.append("text").text(function(d){
+                    var name =  d.name;
+                    name = name.replace("u", "");
+                    name = name.replace("'", "");
+                    name = name.replace("[", "");
+                    name = name.replace("]", "");
+                    name = name.replace("-", "");
+                     name = name.replace("\'", "");
+                    return name;
+
+               }).attr("dx", function(d){ return -30})
+               .style("font-size", function(d) {
+                return Math.min(2 * d.r, (2 * d.r - 8) / this.getComputedTextLength() * 16) + "px";
+               })
+               .attr("dy", ".35em");;
+
+               registerEvents();
+
+        },
+        error:function(error){
+
+        }
+
+    });
+
+ }
+
 var registerEvents = function(){
     $("document").ready(function(){
 
     $("#difficultyValue").css('color', '#ad8527');
+
 	$("#difficulty").on("change", function(event){
 
 		var newValue = event.currentTarget.value;
@@ -30,7 +141,7 @@ var registerEvents = function(){
         }        if(newValue == 1){
             $("#difficultyValue").css('background-color', '#f20602');
         }
-
+        populateTopics();
 	});
 
 	$("#time").on("change", function(event){
@@ -62,9 +173,7 @@ var registerEvents = function(){
         }        if(newValue == 1){
             $("#timeValue").css('background-color', '#f20602');
         }
-
-
-
+        populateTopics();
 	});
 
 	$("#submitButton").on("click", function(event){
@@ -86,10 +195,15 @@ function buildLeftPane(container){
     container.append(recoPane);
 
 
-	var userId = $('#userId').value;
+	   var userId = document.getElementById("userId");
+    if(!userId){
+        userId = "51";
+    } else {
+        userId = userId.value;
+    }
 
     var getUrl = "http://localhost:5000/users/";
-    getUrl = getUrl + "51";
+    getUrl = getUrl + userId;
 
 	$.ajax({
 			url:getUrl,
@@ -123,112 +237,11 @@ function buildLeftPane(container){
                 var submitButton = "<div id='submitButtonContainer' ><input id='submitButton' type='button' value='Submit'></input></div>";
                 controlsPane.append(submitButton);
 
-                //var recos = {};
+                populateTopics();
 
-
-               //var userId = $('#userId').value;
-
-               var getRUrl = "http://localhost:5000/users/rTopics/";
-               getRUrl = getRUrl + "51";
-
-                $.ajax({
-
-                    url: getRUrl,
-                    success : function(result){
-
-                        var json = {
-                        };
-
-                        var internalJson= {};
-
-                        var obj = JSON.parse(result);
-
-                        var topicsArray = obj.topics;
-
-                        for (var i = 0; i < topicsArray.length; i++){
-                            var item = topicsArray[i];
-                            var key = item.split(":")[0];
-                            var value = parseFloat(item.split(":")[1]);
-                            internalJson[key] = value;
-                        }
-
-                        json['topics'] = internalJson;
-
-                        var diameter = 300;
-                        var bleed = 50;
-
-                        var svg = d3.select('#chartPane').append('svg')
-                                            .attr('width', 250)
-                                            .attr('height', 300);
-
-                       var bubble = d3.layout.pack()
-                                        .size([250, 300])
-                                        .value(function(d) {return d.size;})
-                                        .padding(3);
-
-                        function processData(data) {
-                            var obj = data.topics;
-
-                            var newDataSet = [];
-
-                            for(var prop in obj) {
-                              newDataSet.push({name: prop, className: prop.toLowerCase(), size: obj[prop]});
-                            }
-                            return {children: newDataSet};
-                          }
-
-                          // generate data with calculated layout values
-                          var nodes = bubble.nodes(processData(json))
-                                                .filter(function(d) { return !d.children; }); // filter out the outer bubble
-
-                          var vis = svg.selectAll('g myCircleText')
-                                            .data(nodes);
-
-                          var counter = 0;
-
-                          vis.enter().append('g')
-                                    .attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
-
-
-                                    var circle = vis.append("circle")
-                                    .attr('r', function(d) {
-                                        return d.r;
-                                    })
-                                    .attr('class', function(d) {
-                                        counter++;
-                                        return "color" + counter;
-                                    });
-
-                           vis.append("text").text(function(d){
-                                var name =  d.name;
-                                name = name.replace("u", "");
-                                name = name.replace("'", "");
-                                name = name.replace("[", "");
-                                name = name.replace("]", "");
-                                name = name.replace("-", "");
-                                 name = name.replace("\'", "");
-                                return name;
-
-                           }).attr("dx", function(d){ return -30})
-                           .style("font-size", function(d) {
-                            return Math.min(2 * d.r, (2 * d.r - 8) / this.getComputedTextLength() * 16) + "px";
-                           })
-                           .attr("dy", ".35em");;
-
-                           registerEvents();
-
-                    },
-                    error:function(error){
-
-                    }
-
-                });
-
-      },
-			error: function(result){
-                console.log(result);
-			}
-	});
+            }, error: function(err){
+            }
+            });
 
 
 
